@@ -141,8 +141,31 @@ class NotificationObservable : public IObservable{
         }
     }
 
-    v
+    void setNotification(INotification * notification){
+        if(currentNotification != nullptr){
+            delete currentNotification;
+        }
+        currentNotification = notification;
+        notifyObservers();
+    }
+
+    INotification* getNotification(){
+        return currentNotification;
+
+    }
+
+    string getNotificationContent(){
+       return currentNotification->getContent();
+    }
+
+    ~NotificationObservable(){
+         if(currentNotification!= nullptr){
+            delete currentNotification;
+         }
+    }
 };
+
+
 
 
 
