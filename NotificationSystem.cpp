@@ -164,6 +164,18 @@ class NotificationObservable : public IObservable{
          }
     }
 };
+// Logger class to log the notifications
+class Logger:public IObserver{
+    private:
+    NotificationObservable* notificationObservable;
+    public:
+    Logger(NotificationObservable* observable){
+        this->notificationObservable=observable;
+    }
+    void update(){
+        cout<<"Logging New Notification : \n"<< notificationObservable->getNotificationContent();
+    }
+};
 
 
 
