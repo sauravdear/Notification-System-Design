@@ -178,7 +178,7 @@ class Logger:public IObserver{
     }
 };
 //ab second observer humara NotificationEngine hoga jo observable se notification content leta hai urr usse hrr tarike se send krta hn toh hum mail popup sms teen tarike ki strategy
-//toh phle hum  notification ki strategy banayege taki usse notificationengine meh inherit krr paye
+//toh phle hum  notification ki strategy banayege taki notification engine use kr paye
 class INotificationStrategy{
     public:
     virtual void sendNotifcation(string content) =0;
@@ -219,6 +219,30 @@ class PopUpStrategy:public INotificationStrategy{
             cout<<"Sending Popup Notication: \n"<<content;
         }
 };
+//NOTIFICATION ENGINE
+class NoticationEngine :public IObserver{
+    private:
+        NotificationObservable* notificationObservable;
+        vector<INotificationStrategy*> notficationStrategies;
+
+    public:
+        NoticationEngine(NotificationObservable* observable){
+            this->notificationObservable=observable;
+        }
+
+        void addNotificationStrategy(INotificationStrategy* ns){
+            this->notficationStrategies.push_back(ns);
+        }
+
+        void update(){
+            string noticationContent=notificationObservable->getNotificationContent();
+            for(const auto notficationStrategy:notficationStrategies){
+                notficationStrategy->sendNotifcation(noticationContent);
+            }
+        };
+
+
+}
 
 
 
