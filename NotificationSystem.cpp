@@ -239,10 +239,56 @@ class NoticationEngine :public IObserver{
             for(const auto notficationStrategy:notficationStrategies){
                 notficationStrategy->sendNotifcation(noticationContent);
             }
+        }
+    };
+//notifictionservice banayege jo singelton(class ka ek hi instance poore program meh hoga) ku ki ek hi central service honi chahiye saare:notification ko handle kr skke,observer ko manage karein,strategies coordinate karein
+//Agar multiple NotificationService hote to:
+
+//Observers har ek alag list me hote
+
+//Notifications mix up ho jaate
+
+//Consistency khatam ho jaati
+class NoticationService{
+    private:
+        NotificationObservable* observable;
+        static NoticationService* instance;
+        vector<INotification*> notications;
+
+        NoticationService(){
+            observable=new NotificationObservable();
+        }
+
+        public:
+
+            static NoticationService* getInstance(){
+                if(instance==nullptr){
+                    instance=new NoticationService();
+                }
+                return instance;
+            }
+
+
+            NotificationObservable* getObservable(){
+                return observable;
+            }
+
+            void sendNotifcation(INotification* notication){
+                notification.push_back(notication);
+                observable->setNotification(notification);
+            }
+
+            ~NoticationService(){
+                delete observable;
+            }
+
         };
 
-
+        NoticationService* NoticationService::instance=nullptr;
 }
+
+
+
 
 
 
