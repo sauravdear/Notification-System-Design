@@ -285,7 +285,38 @@ class NoticationService{
         };
 
         NoticationService* NoticationService::instance=nullptr;
+        
+int main() {
+    // ek instance le rhe hn Notification service ka
+    NotificationService* notificationService = NotificationService::getInstance();
+
+    // ab meh us observable ko nikalege taki observer attach kr skke
+    NotificationObservable* notificationObservable = notificationService->getObservable();
+   
+    //logger ur Notifictaion ko observer k list meh add karege
+    Logger* logger = new Logger(notificationObservable);
+
+    // notification engine meh teeno strategy add karege
+    NotificationEngine* notificationEngine = new NotificationEngine(notificationObservable);
+
+    notificationEngine->addNotificationStrategy(new EmailStrategy("random.person@gmail.com"));
+    notificationEngine->addNotificationStrategy(new SMSStrategy("+91 9876543210"));
+    notificationEngine->addNotificationStrategy(new PopUpStrategy());
+
+    notificationObservable->addObserver(logger);
+    notificationObservable->addObserver(notificationEngine);
+
+    INotification* notification = new SimpleNotification("Your order has been shipped!");
+    notification = new TimestampDecorator(notification);
+    notification = new SignatureDecorator(notification, "Customer Care");
+    
+    notificationService->sendNotification(notification);
+
+    delete logger;
+    delete notificationEngine;
+    return 0;
 }
+
 
 
 
