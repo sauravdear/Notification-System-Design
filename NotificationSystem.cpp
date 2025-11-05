@@ -165,6 +165,7 @@ class NotificationObservable : public IObservable{
     }
 };
 // Logger class to log the notifications
+//logger ek observer hn jo har new notificattion ko console me log krta hn
 class Logger:public IObserver{
     private:
     NotificationObservable* notificationObservable;
@@ -176,6 +177,7 @@ class Logger:public IObserver{
         cout<<"Logging New Notification : \n"<< notificationObservable->getNotificationContent();
     }
 };
+//ab second observer humara NotificationEngine hoga jo observable se notification content leta hai urr usse hrr tarike se send krta hn toh noti
 
 
 
